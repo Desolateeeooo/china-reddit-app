@@ -1,4 +1,5 @@
-
+import SearchBar from "./SearchBar/SearchBar"
+import Logo from "./Logo"
 
 
 function Navigation() {
