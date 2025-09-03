@@ -4,7 +4,7 @@ function SearchIcon() {
 	return (
 		<div>
 			<Image
-				src="/search-icon2.svg"
+				src="/public/icons/search-icon.svg"
 				alt="Search Icon"
 				width={250}
 				height={250}
