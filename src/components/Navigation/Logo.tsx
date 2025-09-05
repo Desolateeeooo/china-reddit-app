@@ -4,7 +4,7 @@ function Logo() {
 	return (
 		<div>
 			<Image
-				src="/logo.png"
+				src="/public/logo.png"
 				alt="China-Reddit Logo"
 				width={500}
 				height={500}
