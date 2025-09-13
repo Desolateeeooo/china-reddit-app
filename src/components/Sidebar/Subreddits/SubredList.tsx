@@ -68,7 +68,6 @@ const SubredditButton = styled.button<{ $isActive: boolean }>`
 
 // Define the subreddits array for easier management
 const SUBREDDITS = [
-	{ id: 'all', name: 'r/All' },
   { id: 'china', name: 'r/China' },
   { id: 'chinese', name: 'r/Chinese' },
   { id: 'chinapics', name: 'r/ChinaPics' },

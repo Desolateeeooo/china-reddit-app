@@ -90,6 +90,20 @@ const PostActions = styled.div`
   border-top: 1px solid #eee;
 `;
 
+const FallbackContent = styled.div`
+  padding: 1.5rem;
+  background: #fafafa;
+  border-radius: 8px;
+  margin: 1rem;
+  text-align: center;
+  color: #666;
+  
+  p {
+    margin: 0;
+    line-height: 1.5;
+  }
+`;
+
 interface IPostCard {
 	id: string;
 	title: string;
@@ -110,31 +124,31 @@ function PostCard() {
 	const { selectedSubreddit } = useSubreddit();
 
 	const fetchPosts = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      // Use the selectedSubreddit from context
-      const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      
-      setPosts(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching posts:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+		try {
+			setLoading(true);
+			setError(null);
+
+			// Use the selectedSubreddit from context
+			const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+
+			if (data.error) {
+				throw new Error(data.error);
+			}
+
+			setPosts(data);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : 'An error occurred');
+			console.error('Error fetching posts:', err);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	useEffect(() => {
 		fetchPosts();
@@ -162,6 +176,61 @@ function PostCard() {
 		}
 	};
 
+	// Check if thumbnail is valid for Next.js Image
+	const isValidImage = (url: string) => {
+		if (!url || !url.startsWith('http')) return false;
+
+		// Check if it's a default Reddit thumbnail that we shouldn't try to display
+		const invalidThumbnails = [
+			'self',
+			'default',
+			'nsfw',
+			'image',
+			'spoiler'
+		];
+
+		if (invalidThumbnails.includes(url)) return false;
+
+		return true;
+	};
+
+	if (loading) {
+		return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading posts...</div>;
+	}
+
+	if (error) {
+		return (
+			<div style={{
+				padding: '2rem',
+				textAlign: 'center',
+				color: '#c62f2f',
+				background: '#f8e7b6',
+				borderRadius: '8px',
+				margin: '1rem'
+			}}>
+				Error: {error}
+				<button
+					onClick={fetchPosts}
+					style={{
+						marginLeft: '1rem',
+						padding: '0.5rem 1rem',
+						background: '#8a1f1f',
+						color: 'white',
+						border: 'none',
+						borderRadius: '4px',
+						cursor: 'pointer'
+					}}
+				>
+					Retry
+				</button>
+			</div>
+		);
+	}
+
+	if (posts.length === 0) {
+		return <div style={{ padding: '2rem', textAlign: 'center' }}>No posts found.</div>;
+	}
+
 	return (
 		<>
 			{posts.map((post) => (
@@ -180,7 +249,7 @@ function PostCard() {
 						<PostTitle>{post.title}</PostTitle>
 					</div>
 					<div>
-						{post.thumbnail && post.thumbnail.startsWith('http') ? (
+						{isValidImage(post.thumbnail) ? (
 							<PostImage>
 								<Image
 									src={post.thumbnail}
@@ -188,12 +257,21 @@ function PostCard() {
 									width={800}
 									height={450}
 									layout="responsive"
+									objectFit="cover"
+									onError={(e) => {
+										// If image fails to load, we'll handle it in the component state
+										e.currentTarget.style.display = 'none';
+									}}
 								/>
 							</PostImage>
-						) : (
-							<div style={{ padding: '1.5rem', background: '#fafafa' }}>
+						) : post.selftext ? (
+							<FallbackContent>
 								<p>{post.selftext.substring(0, 200)}...</p>
-							</div>
+							</FallbackContent>
+						) : (
+							<FallbackContent>
+								<p>No image preview available</p>
+							</FallbackContent>
 						)}
 						<PostActions>
 							<SecondaryButton icon="upvote">{post.ups}</SecondaryButton>
