@@ -133,8 +133,27 @@ interface IPostCard {
 	selftext: string;
 }
 
+export interface Post {
+  id: string;
+  title: string;
+  author: string;
+  subreddit: string;
+  thumbnail: string;
+  created_utc: number;
+  num_comments: number;
+  ups: number;
+  selftext: string;
+  url: string;
+  post_hint?: string;
+  domain?: string;
+  is_video?: boolean;
+}
 
-function PostCard() {
+interface PostCardProps {
+  post?: Post;
+}
+
+function PostCard({ post }: PostCardProps) {
 	const [posts, setPosts] = useState<IPostCard[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);

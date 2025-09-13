@@ -1,39 +1,37 @@
 import { configureStore, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the state structure
-export interface RootState {
-  search: {
-    query: string;
-    filters: {
-      timeFilter: string;
-      sort: string;
-      subreddit: string;
-    };
-    results: any[]; // Can be more specific later
-    isLoading: boolean;
-    error: string | null;
+export interface SearchState {
+  query: string;
+  filters: {
+    timeFilter: string;
+    sort: string;
+    subreddit: string;
   };
+  results: any[];
+  isLoading: boolean;
+  error: string | null;
 }
 
-// Initial state - designed to handle unknown data
-const initialState = {
-  search: {
-    query: '',
-    filters: {
-      timeFilter: 'all',
-      sort: 'relevance',
-      subreddit: 'all'
-    },
-    results: [],
-    isLoading: false,
-    error: null
-  }
+export interface RootState {
+  search: SearchState;
+}
+
+const initialSearchState: SearchState = {
+  query: '',
+  filters: {
+    timeFilter: 'all',
+    sort: 'relevance',
+    subreddit: 'all'
+  },
+  results: [],
+  isLoading: false,
+  error: null
 };
 
-// Create search slice
 const searchSlice = createSlice({
   name: 'search',
-  initialState: initialState.search,
+  initialState: initialSearchState,
   reducers: {
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
@@ -78,8 +76,7 @@ export const {
 export const store = configureStore({
   reducer: {
     search: searchSlice.reducer
-  },
-  preloadedState: initialState
+  }
 });
 
 export type AppDispatch = typeof store.dispatch;

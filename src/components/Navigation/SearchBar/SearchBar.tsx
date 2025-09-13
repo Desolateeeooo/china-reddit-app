@@ -2,8 +2,12 @@
 
 import SearchIcon from "./SearchIcon";
 import styled from 'styled-components';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux';
+import {setSearchQuery} from "../../../store/store"
+import {searchPosts } from '../../../store/searchThunk';
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.form`
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.15);
@@ -37,15 +41,71 @@ const SearchInput = styled.input`
   }
 `;
 
+const SearchButton = styled.button`
+  background: #d4af37;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  color: #8a1f1f;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: #f8e7b6;
+    transform: scale(1.05);
+  }
+  
+  &:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+`;
+
 function SearchBar() {
+  const [localQuery, setLocalQuery] = useState('');
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.search);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (localQuery.trim()) {
+      // Update Redux state
+      dispatch(setSearchQuery(localQuery));
+      
+      // Perform search
+      dispatch(searchPosts({ 
+        query: localQuery,
+        // You can add other filters here from your state
+      }));
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalQuery(e.target.value);
+    
+    // Optional: Implement debounced search as user types
+    // For now, we'll just update the local state
+  };
+
   return (
-    <SearchContainer>
+    <SearchContainer onSubmit={handleSubmit}>
       <SearchInput
         id="search-bar"
         type="text"
-        placeholder="Search for posts..."
+        placeholder="Search China-related posts..."
+        value={localQuery}
+        onChange={handleInputChange}
+        disabled={isLoading}
       />
-      <SearchIcon />
+      <SearchButton type="submit" disabled={isLoading}>
+        <SearchIcon />
+      </SearchButton>
     </SearchContainer>
   );
 }
