@@ -6,6 +6,7 @@ import UserLogo from './UserLogo';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useSubreddit } from '../../app/context/SubredditContext';
+import RedditImage from '../RedditImage/RedditImage';
 
 const PostCardContainer = styled.article`
   background: white;
@@ -70,15 +71,31 @@ const PostTitle = styled.h5`
 const PostImage = styled.div`
   position: relative;
   overflow: hidden;
+  min-height: 200px;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   img {
     width: 100%;
     height: auto;
     transition: transform 0.5s ease;
   }
+`;
+
+const LoadingSpinner = styled.div`
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #d4af37;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
   
-  &:hover img {
-    transform: scale(1.03);
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 `;
 
@@ -176,26 +193,29 @@ function PostCard() {
 		}
 	};
 
-	// Check if thumbnail is valid for Next.js Image
-	const isValidImage = (url: string) => {
-		if (!url || !url.startsWith('http')) return false;
 
-		// Check if it's a default Reddit thumbnail that we shouldn't try to display
-		const invalidThumbnails = [
-			'self',
-			'default',
-			'nsfw',
-			'image',
-			'spoiler'
-		];
+	// Check if we should show an image for this post
+	const shouldShowImage = (post: IPostCard) => {
+		if (post.is_video) return false;
 
-		if (invalidThumbnails.includes(url)) return false;
+		// Check if it's a valid image URL
+		const validImage = post.thumbnail &&
+			post.thumbnail.startsWith('http') &&
+			post.thumbnail !== 'self' &&
+			post.thumbnail !== 'default' &&
+			post.thumbnail !== 'nsfw' &&
+			post.thumbnail !== 'image';
 
-		return true;
+		return validImage || (post.url && post.url.match(/\.(jpg|jpeg|png|gif)$/i));
 	};
 
 	if (loading) {
-		return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading posts...</div>;
+		return (
+			<div style={{ padding: '2rem', textAlign: 'center' }}>
+				<LoadingSpinner />
+				<p style={{ marginTop: '1rem' }}>Loading posts from r/{selectedSubreddit}...</p>
+			</div>
+		);
 	}
 
 	if (error) {
@@ -228,7 +248,7 @@ function PostCard() {
 	}
 
 	if (posts.length === 0) {
-		return <div style={{ padding: '2rem', textAlign: 'center' }}>No posts found.</div>;
+		return <div style={{ padding: '2rem', textAlign: 'center' }}>No posts found in r/{selectedSubreddit}.</div>;
 	}
 
 	return (
@@ -249,30 +269,19 @@ function PostCard() {
 						<PostTitle>{post.title}</PostTitle>
 					</div>
 					<div>
-						{isValidImage(post.thumbnail) ? (
+						{shouldShowImage(post) ? (
 							<PostImage>
-								<Image
+								<RedditImage
 									src={post.thumbnail}
 									alt={post.title}
-									width={800}
-									height={450}
-									layout="responsive"
-									objectFit="cover"
-									onError={(e) => {
-										// If image fails to load, we'll handle it in the component state
-										e.currentTarget.style.display = 'none';
-									}}
+									postData={post}
 								/>
 							</PostImage>
 						) : post.selftext ? (
-							<FallbackContent>
+							<div style={{ padding: '1.5rem', background: '#fafafa' }}>
 								<p>{post.selftext.substring(0, 200)}...</p>
-							</FallbackContent>
-						) : (
-							<FallbackContent>
-								<p>No image preview available</p>
-							</FallbackContent>
-						)}
+							</div>
+						) : null}
 						<PostActions>
 							<SecondaryButton icon="upvote">{post.ups}</SecondaryButton>
 							<SecondaryButton icon="comment">{post.num_comments}</SecondaryButton>
@@ -283,7 +292,7 @@ function PostCard() {
 				</PostCardContainer>
 			))}
 		</>
-	)
+	);
 }
 
 export default PostCard;
