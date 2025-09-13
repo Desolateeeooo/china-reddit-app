@@ -103,7 +103,6 @@ interface IPostCard {
 
 
 function PostCard() {
-
 	const [posts, setPosts] = useState<IPostCard[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
