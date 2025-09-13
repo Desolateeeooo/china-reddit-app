@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const response = await fetch('https://www.reddit.com/r/China/new.json');
+    const { searchParams } = new URL(request.url);
+    const subreddit = searchParams.get('subreddit') || 'china';
+    
+    const response = await fetch(`https://www.reddit.com/r/${subreddit}/new.json`);
     
     if (!response.ok) {
       return NextResponse.json(
@@ -13,7 +16,6 @@ export async function GET() {
     
     const data = await response.json();
     
-    // Extract the posts from the response
     const posts = data.data.children.map((child: any) => ({
       id: child.data.id,
       title: child.data.title,

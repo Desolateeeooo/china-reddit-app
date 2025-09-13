@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useSubreddit } from '../../../app/context/SubredditContext';
 
 const SubredditList = styled.ul`
   list-style: none;
@@ -83,14 +84,11 @@ interface SubredListProps {
   initialActive?: string;
 }
 
-function SubredList({ onSubredditChange, initialActive = 'china' }: SubredListProps) {
-  const [activeSubreddit, setActiveSubreddit] = useState(initialActive);
+function SubredList() {
+  const { selectedSubreddit, setSelectedSubreddit } = useSubreddit();
 
   const handleSubredditClick = (subredditId: string) => {
-    setActiveSubreddit(subredditId);
-    if (onSubredditChange) {
-      onSubredditChange(subredditId);
-    }
+    setSelectedSubreddit(subredditId);
   };
 
   return (
@@ -98,9 +96,9 @@ function SubredList({ onSubredditChange, initialActive = 'china' }: SubredListPr
       {SUBREDDITS.map((subreddit) => (
         <li key={subreddit.id}>
           <SubredditButton
-            $isActive={activeSubreddit === subreddit.id}
+            $isActive={selectedSubreddit === subreddit.id}
             onClick={() => handleSubredditClick(subreddit.id)}
-            aria-selected={activeSubreddit === subreddit.id}
+            aria-selected={selectedSubreddit === subreddit.id}
           >
             <span>{subreddit.name}</span>
             <div className="indicator" />
