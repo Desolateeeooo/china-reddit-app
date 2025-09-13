@@ -4,6 +4,7 @@ import Image from 'next/image';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import UserLogo from './UserLogo';
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 
 const PostCardContainer = styled.article`
   background: white;
@@ -88,41 +89,121 @@ const PostActions = styled.div`
   border-top: 1px solid #eee;
 `;
 
+interface IPostCard {
+	id: string;
+	title: string;
+	author: string;
+	subreddit: string;
+	thumbnail: string;
+	created_utc: number;
+	num_comments: number;
+	ups: number;
+	selftext: string;
+}
+
+
 function PostCard() {
-  return (
-    <PostCardContainer>
-      <div>
-        <PostHeader>
-          <UserLogo />
+
+	const [posts, setPosts] = useState<IPostCard[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	const fetchPosts = async () => {
+		try {
+			setLoading(true);
+			setError(null);
+			const response = await fetch("/api");
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+
+			const data = await response.json();
+
+			// Check if we got an error response from our API
+			if (data.error) {
+				throw new Error(data.error);
+			}
+
+			setPosts(data);
+		} catch (err) {
+			setError(err instanceof Error ? err.message : 'An error occurred');
+			console.error('Error fetching posts:', err);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
+    fetchPosts();
+  }, []);
+
+	if (loading) {
+    return <div>Loading posts...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  // Format relative time (e.g., "5 hours ago")
+  const formatTime = (timestamp: number) => {
+    const now = new Date().getTime() / 1000;
+    const diff = now - timestamp;
+    
+    if (diff < 3600) {
+      return `${Math.floor(diff / 60)} minutes ago`;
+    } else if (diff < 86400) {
+      return `${Math.floor(diff / 3600)} hours ago`;
+    } else {
+      return `${Math.floor(diff / 86400)} days ago`;
+    }
+  };
+
+	return (
+    <>
+      {posts.map((post) => (
+        <PostCardContainer key={post.id}>
           <div>
-            <p>r/China</p>
-            <PostMeta>
-              <li>Posted by u/username</li>
-              <li>18 hours ago</li>
-            </PostMeta>
+            <PostHeader>
+              <UserLogo />
+              <div>
+                <p>r/{post.subreddit}</p>
+                <PostMeta>
+                  <li>Posted by u/{post.author}</li>
+                  <li>{formatTime(post.created_utc)}</li>
+                </PostMeta>
+              </div>
+            </PostHeader>
+            <PostTitle>{post.title}</PostTitle>
           </div>
-        </PostHeader>
-        <PostTitle>Exploring the Beautiful Streets of Beijing - A Photographic Journey</PostTitle>
-      </div>
-      <div>
-        <PostImage>
-          <Image 
-            src="/beijing_image.jpg" // Remove "public" from path
-            alt="Beijing picture"
-            width={800}
-            height={450}
-            layout="responsive"
-          />
-        </PostImage>
-        <PostActions>
-          <SecondaryButton icon="upvote">1.2k</SecondaryButton>
-          <SecondaryButton icon="comment">243</SecondaryButton>
-          <SecondaryButton icon="share">Share</SecondaryButton>
-          <SecondaryButton icon="save">Save</SecondaryButton>
-        </PostActions>
-      </div>
-    </PostCardContainer>
-  )
+          <div>
+            {post.thumbnail && post.thumbnail.startsWith('http') ? (
+              <PostImage>
+                <Image 
+                  src={post.thumbnail}
+                  alt={post.title}
+                  width={800}
+                  height={450}
+                  layout="responsive"
+                />
+              </PostImage>
+            ) : (
+              <div style={{padding: '1.5rem', background: '#fafafa'}}>
+                <p>{post.selftext.substring(0, 200)}...</p>
+              </div>
+            )}
+            <PostActions>
+              <SecondaryButton icon="upvote">{post.ups}</SecondaryButton>
+              <SecondaryButton icon="comment">{post.num_comments}</SecondaryButton>
+              <SecondaryButton icon="share">Share</SecondaryButton>
+              <SecondaryButton icon="save">Save</SecondaryButton>
+            </PostActions>
+          </div>
+        </PostCardContainer>
+      ))}
+    </>
+	)
 }
 
 export default PostCard;
