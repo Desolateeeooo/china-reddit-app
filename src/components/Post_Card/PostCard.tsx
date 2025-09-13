@@ -196,6 +196,7 @@ function PostCard() {
 
 	// Check if we should show an image for this post
 	const shouldShowImage = (post: IPostCard) => {
+		// @ts-ignore
 		if (post.is_video) return false;
 
 		// Check if it's a valid image URL
@@ -206,6 +207,7 @@ function PostCard() {
 			post.thumbnail !== 'nsfw' &&
 			post.thumbnail !== 'image';
 
+			// @ts-ignore
 		return validImage || (post.url && post.url.match(/\.(jpg|jpeg|png|gif)$/i));
 	};
 
@@ -274,6 +276,7 @@ function PostCard() {
 								<RedditImage
 									src={post.thumbnail}
 									alt={post.title}
+									// @ts-ignore
 									postData={post}
 								/>
 							</PostImage>
