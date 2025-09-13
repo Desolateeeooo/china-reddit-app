@@ -1,6 +1,7 @@
 "use client"
 
 import styled from 'styled-components';
+import { useSubreddit } from '../../../app/context/SubredditContext';
 
 const FiltersContainer = styled.div`
   h2 {
@@ -39,7 +40,27 @@ const FilterForm = styled.form`
   }
 `;
 
+const CurrentSelection = styled.div`
+  background: #f8e7b6;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border-left: 4px solid #d4af37;
+  
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #8a1f1f;
+    
+    strong {
+      font-weight: 600;
+    }
+  }
+`;
+
 function FiltersList() {
+  const { selectedSubreddit } = useSubreddit();
+
   return (
     <FiltersContainer>
       <h2>Filters:</h2>
@@ -57,8 +78,12 @@ function FiltersList() {
           </FilterForm>
         </li>
       </ul>
+      
+      <CurrentSelection>
+        <p>Currently viewing: <strong>{selectedSubreddit}</strong></p>
+      </CurrentSelection>
     </FiltersContainer>
-  )
+  );
 }
 
 export default FiltersList;
