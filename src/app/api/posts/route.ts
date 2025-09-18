@@ -16,8 +16,9 @@ export async function GET(request: NextRequest) {
     
     const data = await response.json();
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const posts = data.data.children.map((child: any) => {
-      // Get higher quality image when available
+      // Get higher quality image
       let imageUrl = child.data.thumbnail;
       const preview = child.data.preview;
       
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
         author: child.data.author,
         subreddit: child.data.subreddit,
         url: child.data.url,
-        thumbnail: imageUrl, // Use the best available image
+        thumbnail: imageUrl,
         created_utc: child.data.created_utc,
         num_comments: child.data.num_comments,
         ups: child.data.ups,
