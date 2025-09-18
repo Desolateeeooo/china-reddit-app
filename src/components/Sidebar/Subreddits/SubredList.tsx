@@ -1,7 +1,6 @@
 "use client"
 
 import styled from 'styled-components';
-import { useState } from 'react';
 import { useSubreddit } from '../../../app/context/SubredditContext';
 
 const SubredditList = styled.ul`
@@ -78,10 +77,10 @@ const SUBREDDITS = [
   { id: 'travelchina', name: 'r/TravelChina' }
 ];
 
-interface SubredListProps {
-  onSubredditChange?: (subreddit: string) => void;
-  initialActive?: string;
-}
+// interface SubredListProps {
+//   onSubredditChange?: (subreddit: string) => void;
+//   initialActive?: string;
+// }
 
 function SubredList() {
   const { selectedSubreddit, setSelectedSubreddit } = useSubreddit();
