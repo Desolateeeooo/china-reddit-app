@@ -1,6 +1,5 @@
 "use client"
 
-import Image from 'next/image';
 import SecondaryButton from '../Buttons/SecondaryButton';
 import UserLogo from './UserLogo';
 import styled from 'styled-components';
@@ -108,19 +107,19 @@ const PostActions = styled.div`
   border-top: 1px solid #eee;
 `;
 
-const FallbackContent = styled.div`
-  padding: 1.5rem;
-  background: #fafafa;
-  border-radius: 8px;
-  margin: 1rem;
-  text-align: center;
-  color: #666;
+// const FallbackContent = styled.div`
+//   padding: 1.5rem;
+//   background: #fafafa;
+//   border-radius: 8px;
+//   margin: 1rem;
+//   text-align: center;
+//   color: #666;
   
-  p {
-    margin: 0;
-    line-height: 1.5;
-  }
-`;
+//   p {
+//     margin: 0;
+//     line-height: 1.5;
+//   }
+// `;
 
 interface IPostCard {
 	id: string;
@@ -148,8 +147,7 @@ function PostCard() {
 		try {
 			setLoading(true);
 			setError(null);
-
-			// Use the selectedSubreddit from context
+			
 			const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
 
 			if (!response.ok) {
@@ -196,9 +194,7 @@ function PostCard() {
 			return `${Math.floor(diff / 86400)} days ago`;
 		}
 	};
-
-
-	// Check if we should show an image for this post
+	
 	const shouldShowImage = (post: IPostCard) => {
 		if (post.is_video) return false;
 
@@ -293,7 +289,6 @@ function PostCard() {
 								<RedditImage
 									src={post.thumbnail}
 									alt={post.title}
-									// @ts-ignore
 									postData={post}
 								/>
 							</PostImage>
