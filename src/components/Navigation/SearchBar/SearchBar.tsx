@@ -1,5 +1,6 @@
 "use client"
 
+import { useSearchBar } from "@/app/context/NavigationContext";
 import SearchIcon from "./SearchIcon";
 import styled from 'styled-components';
 
@@ -38,12 +39,21 @@ const SearchInput = styled.input`
 `;
 
 function SearchBar() {
+
+	const {searchTerms, setSearchTerms} = useSearchBar();
+
+	const handleSearchTerms = ({target}: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerms(target.value)
+	}
+
   return (
     <SearchContainer>
       <SearchInput
         id="search-bar"
         type="text"
         placeholder="Search for posts..."
+				value={searchTerms}
+				onChange={handleSearchTerms}
       />
       <SearchIcon />
     </SearchContainer>

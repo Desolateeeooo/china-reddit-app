@@ -13,7 +13,7 @@ interface NavigationProviderProps {
 	children: ReactNode;
 }
 
-export function SubredditProvider({ children }: NavigationProviderProps) {
+export function NavigationProvider({ children }: NavigationProviderProps) {
 	const [searchTerms, setSearchTerms] = useState('');
 
 	return (
@@ -23,7 +23,7 @@ export function SubredditProvider({ children }: NavigationProviderProps) {
 	);
 }
 
-export function useNavigation() {
+export function useSearchBar() {
 	const context = useContext(NavigationContext);
 	if (context === undefined) {
 		throw new Error('useSubreddit must be used within a SubredditProvider');
