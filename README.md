@@ -1,46 +1,40 @@
-ChinaTalk - Reddit Client 📱🐉
+# ChinaTalk - Reddit Client 📱🐉
 
 A beautiful, responsive Reddit client focused on Chinese culture, built with Next.js, TypeScript, and Redux. Explore China-related subreddits with an elegant traditional Chinese-inspired design.
 
-🌟 Features
-✨ Core Functionality
-Subreddit Navigation: Browse popular China-related communities
+## 🌟 Features
 
-Real-time Search: Find posts across multiple Chinese subreddits
+### ✨ Core Functionality
 
-Trending Topics: Discover popular themes in Chinese culture
+- Subreddit Navigation: Browse popular China-related communities
+- Real-time Search: Find posts across multiple Chinese subreddits
+- Trending Topics: Discover popular themes in Chinese culture
+- High-quality Media: Optimized image loading with Next.js
+- Responsive Design: Works perfectly on desktop, tablet, and mobile
 
-High-quality Media: Optimized image loading with Next.js
+### 🎨 Design Features
 
-Responsive Design: Works perfectly on desktop, tablet, and mobile
+- Traditional Chinese Aesthetic: Red and gold color scheme inspired by Chinese culture
+- Smooth Animations: Elegant transitions and hover effects
+- ypography: Chinese-inspired fonts with proper hierarchy
+- Mobile-First: Responsive design that works on all devices
 
-🎨 Design Features
-Traditional Chinese Aesthetic: Red and gold color scheme inspired by Chinese culture
+### 🔧 Technical Features
 
-Smooth Animations: Elegant transitions and hover effects
+- Next.js 14: Latest React framework with App Router
+- TypeScript: Full type safety throughout the application
+- Styled Components: CSS-in-JS with theme support
+- API Routes: Custom serverless functions for Reddit API
 
-Typography: Chinese-inspired fonts with proper hierarchy
+### 🛠️ Installation
 
-Mobile-First: Responsive design that works on all devices
-
-🔧 Technical Features
-Next.js 14: Latest React framework with App Router
-
-TypeScript: Full type safety throughout the application
-
-Redux Toolkit: Modern state management
-
-Styled Components: CSS-in-JS with theme support
-
-API Routes: Custom serverless functions for Reddit API
-
-🛠️ Installation
 Prerequisites
 Node.js 18+
 
 npm or yarn
 
 ### Setup Instructions
+
 1. Clone the repository
 
 ```bash
@@ -67,11 +61,12 @@ yarn dev
 4. Open your browser
 Navigate to http://localhost:3000
 
-🏗️ Project Structure
+### 🏗️ Project Structure
 
 ...
 
-🎯 Supported Subreddits
+### 🎯 Supported Subreddits
+
 - r/China - General discussion about China
 - r/Chinese - Chinese language and culture
 - r/ChinaPics - Beautiful photos from China
@@ -81,17 +76,20 @@ Navigate to http://localhost:3000
 - r/ChineseLanguage - Language learning
 - r/TravelChina - Travel tips and experiences
 
-🔌 API Usage
+### 🔌 API Usage
+
 This application uses the Reddit JSON API to fetch posts and comments. All requests are routed through Next.js API routes to handle CORS and rate limiting.
 
-Rate Limiting
+### Rate Limiting
+
 The app respects Reddit's API rate limits:
 
 - 60 requests per minute for OAuth clients
 - Appropriate caching to minimize requests
 - Error handling for rate limit responses
 
-🎨 Customization
+### 🎨 Customization
+
 Theming
 The application uses a Chinese-inspired color scheme:
 
@@ -106,6 +104,7 @@ The application uses a Chinese-inspired color scheme:
 ```
 
 ### Adding New Subreddits
+
 Edit the SUBREDDITS array in components/Sidebar/Subreddits/SubredList.tsx:
 
 ```ts
