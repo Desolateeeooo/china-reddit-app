@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+ChinaTalk - Reddit Client 📱🐉
 
-## Getting Started
+A beautiful, responsive Reddit client focused on Chinese culture, built with Next.js, TypeScript, and Redux. Explore China-related subreddits with an elegant traditional Chinese-inspired design.
 
-First, run the development server:
+🌟 Features
+✨ Core Functionality
+Subreddit Navigation: Browse popular China-related communities
+
+Real-time Search: Find posts across multiple Chinese subreddits
+
+Trending Topics: Discover popular themes in Chinese culture
+
+High-quality Media: Optimized image loading with Next.js
+
+Responsive Design: Works perfectly on desktop, tablet, and mobile
+
+🎨 Design Features
+Traditional Chinese Aesthetic: Red and gold color scheme inspired by Chinese culture
+
+Smooth Animations: Elegant transitions and hover effects
+
+Typography: Chinese-inspired fonts with proper hierarchy
+
+Mobile-First: Responsive design that works on all devices
+
+🔧 Technical Features
+Next.js 14: Latest React framework with App Router
+
+TypeScript: Full type safety throughout the application
+
+Redux Toolkit: Modern state management
+
+Styled Components: CSS-in-JS with theme support
+
+API Routes: Custom serverless functions for Reddit API
+
+🛠️ Installation
+Prerequisites
+Node.js 18+
+
+npm or yarn
+
+### Setup Instructions
+1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/china-reddit-app.git
+cd china-reddit-app
+```
+
+2. Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Run the development server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open your browser
+Navigate to http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🏗️ Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+...
 
-## Learn More
+🎯 Supported Subreddits
+- r/China - General discussion about China
+- r/Chinese - Chinese language and culture
+- r/ChinaPics - Beautiful photos from China
+- r/Shanghai - Shanghai-specific content
+- r/Beijing - Beijing-specific content
+- r/ChineseFood - Chinese cuisine
+- r/ChineseLanguage - Language learning
+- r/TravelChina - Travel tips and experiences
 
-To learn more about Next.js, take a look at the following resources:
+🔌 API Usage
+This application uses the Reddit JSON API to fetch posts and comments. All requests are routed through Next.js API routes to handle CORS and rate limiting.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Rate Limiting
+The app respects Reddit's API rate limits:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- 60 requests per minute for OAuth clients
+- Appropriate caching to minimize requests
+- Error handling for rate limit responses
 
-## Deploy on Vercel
+🎨 Customization
+Theming
+The application uses a Chinese-inspired color scheme:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```css
+:root {
+  --primary-red: #c62f2f;
+  --primary-gold: #d4af37;
+  --dark-red: #8a1f1f;
+  --light-gold: #f8e7b6;
+  --background: #f9f2e3;
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Adding New Subreddits
+Edit the SUBREDDITS array in components/Sidebar/Subreddits/SubredList.tsx:
+
+```ts
+const SUBREDDITS = [
+  { id: 'yoursubreddit', name: 'r/YourSubreddit' },
+  // ... add more subreddits
+];
+```
+
+📱 Browser Support
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
