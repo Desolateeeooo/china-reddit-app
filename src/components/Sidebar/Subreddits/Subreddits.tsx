@@ -1,7 +1,6 @@
 "use client"
 
 import SubredList from "./SubredList";
-import FiltersList from "./FiltersList";
 import styled from 'styled-components';
 
 const SubredditsContainer = styled.div`
@@ -19,7 +18,6 @@ function Subreddits() {
     <SubredditsContainer>
       <h2>Subreddits:</h2>
       <SubredList />
-      <FiltersList />
     </SubredditsContainer>
   )
 }
