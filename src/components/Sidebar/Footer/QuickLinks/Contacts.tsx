@@ -47,7 +47,7 @@ function Contacts() {
       <SocialList>
         <li>
           <Image
-            src="/telegram.svg"
+            src="/static/images/website_icons/telegram.svg"
             alt="Telegram icon"
             width={30}
             height={30}
@@ -55,7 +55,7 @@ function Contacts() {
         </li>
         <li>
           <Image
-            src="/github.svg"
+            src="/static/images/website_icons/github.svg"
             alt="GitHub icon"
             width={30}
             height={30}
@@ -63,7 +63,7 @@ function Contacts() {
         </li>
         <li>
           <Image
-            src="/discord.svg"
+            src="/static/images/website_icons/discord.svg"
             alt="Discord icon"
             width={30}
             height={30}

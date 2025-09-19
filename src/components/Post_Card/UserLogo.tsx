@@ -20,10 +20,14 @@ const UserLogoContainer = styled.div`
 `;
 
 function UserLogo() {
+
+	const random = Math.floor(Math.random() * (17 - 1 + 1)) + 1;
+	const url = `/static/images/user_logos/user_icon_${random}.svg`
+
   return(
     <UserLogoContainer>
       <Image 
-        src="/user_logo_1.svg" // Remove "public" from path
+        src={url}
         alt="User Logo icon"
         width={45}
         height={45}

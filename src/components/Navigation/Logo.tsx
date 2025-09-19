@@ -30,7 +30,7 @@ function Logo() {
   return (
     <LogoContainer>
       <Image
-        src="/logo.png"
+        src="/static/images/website_icons/logo.png"
         alt="China-Reddit Logo"
         width={60}
         height={60}
