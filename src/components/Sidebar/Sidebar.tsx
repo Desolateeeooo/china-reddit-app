@@ -3,6 +3,7 @@
 import Subreddits from "./Subreddits/Subreddits";
 import Footer from "./Footer/Footer";
 import styled from 'styled-components';
+import ChinaNews from './ChinaNews/ChinaNews';
 
 const SidebarContainer = styled.div`
   background: linear-gradient(to bottom, #ffffff, #f8f0e0);
@@ -23,6 +24,7 @@ function Sidebar() {
   return (
     <SidebarContainer>
       <Subreddits />
+			<ChinaNews />
       <Footer />
     </SidebarContainer>
   )
