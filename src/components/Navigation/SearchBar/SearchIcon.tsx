@@ -28,7 +28,7 @@ function SearchIcon() {
   return (
     <IconContainer>
       <Image
-        src="/search-icon.svg"
+        src="/static/images/website_icons/search-icon.svg"
         alt="Search Icon"
         width={24}
         height={24}
