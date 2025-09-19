@@ -21,7 +21,7 @@ const UserLogoContainer = styled.div`
 
 function UserLogo() {
 
-	const random = Math.floor(Math.random() * (17 - 1 + 1)) + 1;
+	const random = Math.floor(Math.random() * 16) + 1;
 	const url = `/static/images/user_logos/user_icon_${random}.svg`
 
   return(
