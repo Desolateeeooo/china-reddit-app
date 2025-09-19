@@ -31,7 +31,6 @@ const FooterContainer = styled.footer`
   }
 `;
 
-// Add a container for the main content to control padding
 const FooterContent = styled.div`
   display: flex;
   flex-direction: column;

@@ -40,7 +40,6 @@ const LinksList = styled.ul`
   }
 `;
 
-// Special style for the Terms & Info link to make it stand out
 const TermsLink = styled(Link)`
   color: #d4af37 !important;
   font-weight: 600;
