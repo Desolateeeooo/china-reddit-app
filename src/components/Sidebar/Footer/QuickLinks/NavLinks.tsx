@@ -62,8 +62,8 @@ function NavLinks() {
       <h3>Quick Links:</h3>
       <LinksList>
         <li>
-          <Link href="/" legacyBehavior>
-            <a>Home</a>
+          <Link href="/">
+            Home
           </Link>
         </li>
         <li>
