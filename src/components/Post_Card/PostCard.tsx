@@ -152,6 +152,10 @@ function PostCard() {
 			const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
 
 			if (!response.ok) {
+				// Create a more descriptive error message
+				if (response.status === 403) {
+					throw new Error(`Reddit API blocked the request (403 Forbidden). This is a common issue with serverless platforms like Vercel. Try refreshing the page or checking if Reddit is accessible in your region.`);
+				}
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 
@@ -163,7 +167,8 @@ function PostCard() {
 
 			setPosts(data);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : 'An error occurred');
+			const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+			setError(errorMessage);
 			console.error('Error fetching posts:', err);
 		} finally {
 			setLoading(false);
