@@ -181,8 +181,7 @@ function PostCard() {
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
-
-	// Format relative time (e.g., "5 hours ago")
+	
 	const formatTime = (timestamp: number) => {
 		const now = new Date().getTime() / 1000;
 		const diff = now - timestamp;
