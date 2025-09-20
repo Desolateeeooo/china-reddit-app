@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSubreddit } from '../../app/context/SubredditContext';
 import RedditImage from '../RedditImage/RedditImage';
 import { useSearchBar } from '@/app/context/NavigationContext';
+import ErrorDisplay from '../ErrorDisplay/ErrorDisplay';
 
 const PostCardContainer = styled.article`
   background: white;
@@ -107,20 +108,6 @@ const PostActions = styled.div`
   border-top: 1px solid #eee;
 `;
 
-// const FallbackContent = styled.div`
-//   padding: 1.5rem;
-//   background: #fafafa;
-//   border-radius: 8px;
-//   margin: 1rem;
-//   text-align: center;
-//   color: #666;
-
-//   p {
-//     margin: 0;
-//     line-height: 1.5;
-//   }
-// `;
-
 interface IPostCard {
 	id: string;
 	title: string;
@@ -151,6 +138,9 @@ function PostCard() {
 			const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
 
 			if (!response.ok) {
+				if (response.status === 403) {
+					throw new Error(`Reddit API blocked the request (403 Forbidden). This is a common issue with serverless platforms like Vercel. Try refreshing the page or checking if Reddit is accessible in your region.`);
+				}
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 
@@ -162,7 +152,8 @@ function PostCard() {
 
 			setPosts(data);
 		} catch (err) {
-			setError(err instanceof Error ? err.message : 'An error occurred');
+			const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
+			setError(errorMessage);
 			console.error('Error fetching posts:', err);
 		} finally {
 			setLoading(false);
@@ -174,14 +165,6 @@ function PostCard() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedSubreddit]);
 
-	if (loading) {
-		return <div>Loading posts...</div>;
-	}
-
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
-	
 	const formatTime = (timestamp: number) => {
 		const now = new Date().getTime() / 1000;
 		const diff = now - timestamp;
@@ -220,34 +203,11 @@ function PostCard() {
 
 	if (error) {
 		return (
-			<div style={{
-				padding: '2rem',
-				textAlign: 'center',
-				color: '#c62f2f',
-				background: '#f8e7b6',
-				borderRadius: '8px',
-				margin: '1rem'
-			}}>
-				<h3>⚠️ Temporary API Issue</h3>
-				<p>{"We're experiencing difficulties loading posts from Reddit."}</p>
-				<p>{"This is a known issue with Reddit's API and serverless platforms."}</p>
-				<small>Error: {error}</small>
-				<br />
-				<button
-					onClick={fetchPosts}
-					style={{
-						marginLeft: '1rem',
-						padding: '0.5rem 1rem',
-						background: '#8a1f1f',
-						color: 'white',
-						border: 'none',
-						borderRadius: '4px',
-						cursor: 'pointer'
-					}}
-				>
-					Retry
-				</button>
-			</div>
+			<ErrorDisplay
+				error={error}
+				onRetry={fetchPosts}
+				subreddit={selectedSubreddit}
+			/>
 		);
 	}
 
