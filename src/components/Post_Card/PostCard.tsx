@@ -180,14 +180,6 @@ function PostCard() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedSubreddit]);
 
-	if (loading) {
-		return <div>Loading posts...</div>;
-	}
-
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
-
 	const formatTime = (timestamp: number) => {
 		const now = new Date().getTime() / 1000;
 		const diff = now - timestamp;
