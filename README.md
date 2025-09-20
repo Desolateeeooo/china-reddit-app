@@ -28,10 +28,10 @@ A beautiful, responsive Reddit client focused on Chinese culture, built with Nex
 
 ### 🛠️ Installation
 
-Prerequisites
-Node.js 18+
+Prerequisites:
 
-npm or yarn
+- Node.js 18+
+- npm or yarn
 
 ### Setup Instructions
 
@@ -60,10 +60,6 @@ yarn dev
 
 4. Open your browser
 Navigate to http://localhost:3000
-
-### 🏗️ Project Structure
-
-...
 
 ### 🎯 Supported Subreddits
 
@@ -114,10 +110,55 @@ const SUBREDDITS = [
 ];
 ```
 
-📱 Browser Support
+### 📱 Browser Support
 - Chrome (latest)
 - Firefox (latest)
 - Safari (latest)
 - Edge (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
+### 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Use styled-components for styling
+- Maintain the Chinese aesthetic theme
+- Ensure responsive design works on all screen sizes
+- Add appropriate error handling
+
+### 📄 License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+### ⚠️ Disclaimer
+ChinaTalk is created for educational purposes only. This project is not affiliated with or endorsed by Reddit Inc. All content is sourced from public Reddit APIs and remains the property of its original creators.
+
+#### Educational Purpose
+
+This application was developed to demonstrate:
+
+- Modern React/Next.js development
+- TypeScript implementation
+- Responsive UI design
+- API integration patterns
+
+#### Fair Use
+This project operates under fair use principles for educational purposes. All copyrights and intellectual property rights remain with their respective owners.
+
+### 📞 Contact
+
+- Telegram: @desointj
+- GitHub: Desolateeeooo
+- Discord: amasawaerutan
+
+### 🙏 Acknowledgments
+
+- Reddit for providing their public API
+- Next.js team for the amazing framework
+- Chinese cultural elements for design inspiration
+- Open source community for various libraries and tools
+
+---
+
+Made with ❤️ and 🍵 for the developer community
