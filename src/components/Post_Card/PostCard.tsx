@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSubreddit } from '../../app/context/SubredditContext';
 import RedditImage from '../RedditImage/RedditImage';
 import { useSearchBar } from '@/app/context/NavigationContext';
+import ErrorDisplay from '../ErrorDisplay/ErrorDisplay';
 
 const PostCardContainer = styled.article`
   background: white;
@@ -181,7 +182,7 @@ function PostCard() {
 	if (error) {
 		return <div>Error: {error}</div>;
 	}
-	
+
 	const formatTime = (timestamp: number) => {
 		const now = new Date().getTime() / 1000;
 		const diff = now - timestamp;
@@ -220,34 +221,11 @@ function PostCard() {
 
 	if (error) {
 		return (
-			<div style={{
-				padding: '2rem',
-				textAlign: 'center',
-				color: '#c62f2f',
-				background: '#f8e7b6',
-				borderRadius: '8px',
-				margin: '1rem'
-			}}>
-				<h3>⚠️ Temporary API Issue</h3>
-				<p>{"We're experiencing difficulties loading posts from Reddit."}</p>
-				<p>{"This is a known issue with Reddit's API and serverless platforms."}</p>
-				<small>Error: {error}</small>
-				<br />
-				<button
-					onClick={fetchPosts}
-					style={{
-						marginLeft: '1rem',
-						padding: '0.5rem 1rem',
-						background: '#8a1f1f',
-						color: 'white',
-						border: 'none',
-						borderRadius: '4px',
-						cursor: 'pointer'
-					}}
-				>
-					Retry
-				</button>
-			</div>
+			<ErrorDisplay
+				error={error}
+				onRetry={fetchPosts}
+				subreddit={selectedSubreddit}
+			/>
 		);
 	}
 
