@@ -114,7 +114,7 @@ const PostActions = styled.div`
 //   margin: 1rem;
 //   text-align: center;
 //   color: #666;
-  
+
 //   p {
 //     margin: 0;
 //     line-height: 1.5;
@@ -147,7 +147,7 @@ function PostCard() {
 		try {
 			setLoading(true);
 			setError(null);
-			
+
 			const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
 
 			if (!response.ok) {
@@ -171,7 +171,7 @@ function PostCard() {
 
 	useEffect(() => {
 		fetchPosts();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedSubreddit]);
 
 	if (loading) {
@@ -195,7 +195,7 @@ function PostCard() {
 			return `${Math.floor(diff / 86400)} days ago`;
 		}
 	};
-	
+
 	const shouldShowImage = (post: IPostCard) => {
 		if (post.is_video) return false;
 
@@ -229,7 +229,11 @@ function PostCard() {
 				borderRadius: '8px',
 				margin: '1rem'
 			}}>
-				Error: {error}
+				<h3>⚠️ Temporary API Issue</h3>
+				<p>{"We're experiencing difficulties loading posts from Reddit."}</p>
+				<p>{"This is a known issue with Reddit's API and serverless platforms."}</p>
+				<small>Error: {error}</small>
+				<br />
 				<button
 					onClick={fetchPosts}
 					style={{
