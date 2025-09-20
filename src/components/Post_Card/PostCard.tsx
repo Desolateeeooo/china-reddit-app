@@ -108,20 +108,6 @@ const PostActions = styled.div`
   border-top: 1px solid #eee;
 `;
 
-// const FallbackContent = styled.div`
-//   padding: 1.5rem;
-//   background: #fafafa;
-//   border-radius: 8px;
-//   margin: 1rem;
-//   text-align: center;
-//   color: #666;
-
-//   p {
-//     margin: 0;
-//     line-height: 1.5;
-//   }
-// `;
-
 interface IPostCard {
 	id: string;
 	title: string;
@@ -152,7 +138,6 @@ function PostCard() {
 			const response = await fetch(`/api/posts?subreddit=${selectedSubreddit}`);
 
 			if (!response.ok) {
-				// Create a more descriptive error message
 				if (response.status === 403) {
 					throw new Error(`Reddit API blocked the request (403 Forbidden). This is a common issue with serverless platforms like Vercel. Try refreshing the page or checking if Reddit is accessible in your region.`);
 				}
